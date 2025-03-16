@@ -1,0 +1,5 @@
+.env
+.kubeconfig
+.vscode
+node_modules
+.devcontainer

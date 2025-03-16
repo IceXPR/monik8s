@@ -1,0 +1,5 @@
+apiVersion: v2
+name: k8s-metrics-dashboard
+description: A Kubernetes Pod Metrics Dashboard
+version: 0.1.0
+appVersion: 1.0.0

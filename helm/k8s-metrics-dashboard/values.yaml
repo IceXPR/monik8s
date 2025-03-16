@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: icexpr/k8s-metrics-dashboard
+  # tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: metrics.cluster.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi 

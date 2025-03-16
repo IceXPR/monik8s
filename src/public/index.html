@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kubernetes Pod Metrics</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kubernetes Pod Metrics</h1>
+    <div id="lastUpdate"></div>
+    <table id="metricsTable">
+        <thead>
+            <tr>
+                <th>Pod Name</th>
+                <th>Namespace</th>
+                <th>Status</th>
+                <th>Restarts</th>
+                <th>CPU Request</th>
+                <th>Memory Request</th>
+            </tr>
+        </thead>
+        <tbody id="metricsBody">
+        </tbody>
+    </table>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        
+        socket.on('metrics', (metrics) => {
+            const tbody = document.getElementById('metricsBody');
+            tbody.innerHTML = '';
+            
+            metrics.forEach(pod => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${pod.name}</td>
+                    <td>${pod.namespace}</td>
+                    <td>${pod.status}</td>
+                    <td>${pod.restarts}</td>
+                    <td>${pod.cpu}</td>
+                    <td>${pod.memory}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            document.getElementById('lastUpdate').textContent = 
+                `Last updated: ${new Date().toLocaleString()}`;
+        });
+    </script>
+</body>
+</html> 
